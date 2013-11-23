@@ -1,6 +1,4 @@
 
-// jshint asi:true,laxcomma:true
-
 var walk = require('..')
   , path = require('path')
   , assert = require('better-assert')
