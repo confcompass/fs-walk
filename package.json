@@ -11,5 +11,12 @@
   "dependencies" : {
     "async": "*"
   },
-  "keywords": ["list", "walk", "directory", "fs"]
+  "keywords": ["list", "walk", "directory", "fs"],
+  "scripts": {
+    "test": "mocha --reporter spec"
+  },
+  "devDependencies": {
+    "better-assert": "~1.0.0",
+    "mocha": "~1.14.0"
+  }
 }
