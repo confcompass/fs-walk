@@ -1,7 +1,7 @@
 {
   "name": "fs-walk",
   "description": "Synchronous and asynchronous recursive directory listing for node",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository" : {
     "type" : "git",
     "url" : "https://github.com/confcompass/fs-walk.git"
