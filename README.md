@@ -7,7 +7,7 @@ Synchronous and asynchronous recursive directory walking for node. Uses callback
 
 To asynchronously walk the `/etc` directory, and for example, change the file and directory permissions, do:
 
-```
+```js
 var walk = require('fs-walk');
 
 walk.walk('/etc', function(basedir, filename, stat, next) {
@@ -20,7 +20,7 @@ walk.walk('/etc', function(basedir, filename, stat, next) {
 
 You can achieve the same result, synchronously:
 
-```
+```js
 var walk = require('fs-walk');
 
 walk.walkSync('/etc', function(basedir, filename, stat) {
@@ -31,7 +31,7 @@ walk.walkSync('/etc', function(basedir, filename, stat) {
 
 Two convenience functions are provided for convenience, `walk.files` and `walk.dirs` (and their synchronous counterparts) to walk through files and directories.
 
-```
+```js
 var walk = require('fs-walk');
 
 walk.files('/etc', function(basedir, filename, stat, next) {
