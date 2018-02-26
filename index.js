@@ -3,19 +3,19 @@ var fs = require('fs')
   , async = require('async')
 
 /**
- * Asynchronously list `dir` and all its descendents, 
+ * Asynchronously list `dir` and all its descendents,
  * calling `iterator` for each entry. Once all entries have
  * been listed, calls `callback`.
  *
  * @param {String} dir Path to the base directory of the listing.
- * @param {Function} iterator Function that will be called 
- * for each entry in the listing, passing 4 arguments: 
+ * @param {Function} iterator Function that will be called
+ * for each entry in the listing, passing 4 arguments:
  *   * `basedir`: Base directory of the entry (relative to `dir`).
  *   * `file`: Name of the file
  *   * `stat`: Result of calling `fs.stat`
- *   * `next`: Asynchronous callback 
+ *   * `next`: Asynchronous callback
  * Passing an error to the iterator `next` callback will stop iteration
- * and the main `callback` will be called. 
+ * and the main `callback` will be called.
  * @param {Function} callback Asynchronous callback.
  */
 var walk = exports.walk = function(dir, iterator, callback) {
@@ -33,33 +33,40 @@ var walk = exports.walk = function(dir, iterator, callback) {
           async.each(files, function(file, nexts) {
             var f = path.join(dir, file);
             fs.stat(f, function(err, stat) {
-              if (stat && stat.isDirectory()) {
-                dirs.push(f);
-              } 
-              if (stat) {
-                iterator(dir, file, stat, nexts);
+              if(err){
+                nexts(f + ' is not a valid file or directory');
+              } else {
+                if (stat && stat.isDirectory()) {
+                  dirs.push(f);
+                }
+
+                if (stat) {
+                  iterator(dir, file, stat, nexts);
+                } else {
+                  nexts(f + ' is not a valid file or directory');
+                }
               }
             });
           }, nextf);
         }
-      ], 
+      ],
       nextd);
-    }, 
+    },
     callback);
 
 };
 
 /**
- * Synchronously list `dir` and all its descendents, 
+ * Synchronously list `dir` and all its descendents,
  * calling `iterator` for each entry.
  *
  * @param {String} dir Path to the base directory of the listing.
- * @param {Function} iterator Function that will be called 
- * for each entry in the listing, passing 4 arguments: 
+ * @param {Function} iterator Function that will be called
+ * for each entry in the listing, passing 4 arguments:
  *   * `basedir`: Base directory of the entry (relative to `dir`).
  *   * `file`: Name of the file
  *   * `stat`: Result of calling `fs.stat`
- * 
+ *
  */
 var walkSync = exports.walkSync = function(dir, iterator) {
     var dirs = [dir];
