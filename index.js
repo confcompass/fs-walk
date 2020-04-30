@@ -22,7 +22,7 @@ var walk = exports.walk = function(dir, iterator, callback) {
   var dirs = [dir];
 
   async.whilst(
-    function() { return dirs.length },
+    function test(cb) { cb(null, dirs.length > 0); },
     function(nextd) {
       var dir = dirs.shift();
       async.waterfall([
