@@ -76,12 +76,16 @@ var walkSync = exports.walkSync = function(dir, iterator) {
         var files = fs.readdirSync(dir);
         files.forEach(function(file) {
             var f = path.join(dir, file);
-            var stat = fs.statSync(f);
-            if (stat && stat.isDirectory()) {
-                dirs.push(f);
-            }
-            if (stat) {
-                iterator(dir, file, stat);
+            try {
+                var stat = fs.statSync(f);
+                if (stat && stat.isDirectory()) {
+                    dirs.push(f);
+                }
+                if (stat) {
+                    iterator(dir, file, stat);
+                }
+            } catch (e) {
+              /* ignore exceptions here */
             }
         });
     }
