@@ -58,7 +58,7 @@ var walk = exports.walk = function(dir, iterator, callback) {
 
 /**
  * Synchronously list `dir` and all its descendents,
- * calling `iterator` for each entry.
+ * calling `iterator` for each entry ignoring broken symlinks.
  *
  * @param {String} dir Path to the base directory of the listing.
  * @param {Function} iterator Function that will be called
@@ -76,11 +76,11 @@ var walkSync = exports.walkSync = function(dir, iterator) {
         var files = fs.readdirSync(dir);
         files.forEach(function(file) {
             var f = path.join(dir, file);
-            var stat = fs.statSync(f);
-            if (stat && stat.isDirectory()) {
-                dirs.push(f);
-            }
+            var stat = fs.statSync(f, {throwIfNoEntry: false});
             if (stat) {
+                if (stat.isDirectory()) {
+                    dirs.push(f);
+                }
                 iterator(dir, file, stat);
             }
         });
